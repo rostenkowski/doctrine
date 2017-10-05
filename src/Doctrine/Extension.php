@@ -3,6 +3,7 @@
 namespace Rostenkowski\Doctrine;
 
 
+use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\Common\Cache\PhpFileCache;
 use Doctrine\DBAL\Logging\LoggerChain;
 use Nette\DI\CompilerExtension;
@@ -85,6 +86,12 @@ class Extension extends CompilerExtension
 					->setFactory(TracyBar::class)
 					->addSetup('Tracy\Debugger::getBar()->addPanel(?);', ['@self']);
 				$log->addSetup('addLogger', [$this->prefix("@{$name}.debugger")]);
+			}
+			$cache = $builder->addDefinition($this->prefix("{$name}.cache"));
+			if ($this->debugMode) {
+				$cache->setFactory(ArrayCache::class);
+			} else {
+				$cache->setFactory($config['cache']['factory'], $config['cache']['args']);
 			}
 			if ($config['logger']['enabled']) {
 				$builder->addDefinition($this->prefix("{$name}.logger"))
