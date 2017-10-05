@@ -41,17 +41,14 @@ class Extension extends CompilerExtension
 				'enabled' => true,
 				'factory' => TracyBar::class,
 			],
-			'log'        => [
+			'logger'     => [
 				'enabled' => true,
-				'loggers' => [
-					['factory' => FileLogger::class, 'args' => ['%logDir%/query.log']],
-				],
+				'factory' => FileLogger::class,
+				'args'    => ['%logDir%/query.log']
 			],
 			'cache'      => [
 				'factory' => PhpFileCache::class,
-				'options' => [
-					'dir' => '%tempDir%/doctrine/cache'
-				]
+				'args'    => ['%tempDir%/doctrine/cache']
 			],
 			'proxy'      => [
 				'dir' => '%tempDir%/doctrine/proxies',
@@ -81,7 +78,7 @@ class Extension extends CompilerExtension
 			if ($this->debugMode) {
 				$cache->setFactory(ArrayCache::class);
 			} else {
-				$cache->setFactory($config['cache']['factory'], [$config['cache']['options']['dir']]);
+				$cache->setFactory($config['cache']['factory'], $config['cache']['args']);
 			}
 
 			// create config
@@ -106,13 +103,11 @@ class Extension extends CompilerExtension
 				$log->addSetup('addLogger', [$this->prefix("@{$name}.debugger")]);
 			}
 
-			// loggers
-			if ($config['log']['enabled']) {
-				foreach ($config['log']['loggers'] as $i => $logger) {
-					$builder->addDefinition($this->prefix("{$name}.logger.{$i}"))
-						->setFactory($logger['factory'], $logger['args']);
-					$log->addSetup('addLogger', [$this->prefix("@{$name}.logger.{$i}")]);
-				}
+			// logger
+			if ($config['logger']['enabled']) {
+				$builder->addDefinition($this->prefix("{$name}.logger"))
+					->setFactory($config['logger']['factory'], $config['logger']['args']);
+				$log->addSetup('addLogger', [$this->prefix("@{$name}.logger")]);
 			}
 
 			// repository
