@@ -87,11 +87,10 @@ class Extension extends CompilerExtension
 					->addSetup('Tracy\Debugger::getBar()->addPanel(?);', ['@self']);
 				$log->addSetup('addLogger', [$this->prefix("@{$name}.debugger")]);
 			}
-			$cache = $builder->addDefinition($this->prefix("{$name}.cache"));
+			$cache = $builder->addDefinition($this->prefix("{$name}.cache"))
+				->setFactory($config['cache']['factory'], $config['cache']['args']);
 			if ($this->debugMode) {
 				$cache->setFactory(ArrayCache::class);
-			} else {
-				$cache->setFactory($config['cache']['factory'], $config['cache']['args']);
 			}
 			if ($config['logger']['enabled']) {
 				$builder->addDefinition($this->prefix("{$name}.logger"))
