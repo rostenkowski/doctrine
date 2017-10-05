@@ -26,28 +26,34 @@ class TracyBar implements SQLLogger, IBarPanel
 	 */
 	private $queries = [];
 
+	private $totalTime;
+
+
+	private function getTotalTime()
+	{
+		if ($this->totalTime === NULL) {
+			foreach ($this->queries as $query) {
+				$this->totalTime += $query['dur'];
+			}
+		}
+
+		return $this->totalTime;
+	}
+
 
 	public function getPanel()
 	{
 		$count = count($this->queries);
 		$color = $count ? 'green' : '#555555';
-		$totalTime = 0;
-		foreach ($this->queries as $query) {
-			$totalTime += $query['dur'];
-		}
+		$totalTime = $this->getTotalTime();
 		$t = number_format($totalTime * 1000, 0, '.', '&nbsp;') . '&nbsp;ms';
 		$template = $this->getTemplate('panel');
 		$row = $this->getTemplate('query');
 		$buffer = '';
 		foreach ($this->queries as $i => $query) {
-			$s = $query['sql'];
-			if (substr($s, 0, 1) === '"' && substr($s, strlen($s) - 1, 1) === '"') {
-				$s = Strings::trim($s, '"');
-			}
-			$s = $this->colorize($s);
 			$buffer .= sprintf($row,
 				number_format(round($query['dur'] * 1000, 5), 1, '.', '&nbsp;'),
-				$s,
+				$this->colorize($query['sql']),
 				$this->dump($query['params'])
 			);
 		}
@@ -60,10 +66,7 @@ class TracyBar implements SQLLogger, IBarPanel
 	{
 		$count = count($this->queries);
 		$color = $count ? 'green' : '#555555';
-		$totalTime = 0;
-		foreach ($this->queries as $query) {
-			$totalTime += $query['dur'];
-		}
+		$totalTime = $this->getTotalTime();
 		$time = number_format($totalTime * 1000, 0, '.', '&nbsp;') . ' ms';
 		$template = $this->getTemplate('tab');
 
