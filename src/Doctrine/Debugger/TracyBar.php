@@ -41,7 +41,7 @@ class TracyBar implements SQLLogger, IBarPanel
 		$buffer = '';
 		foreach ($this->queries as $i => $query) {
 			$s = $query['sql'];
-			if (Strings::startsWith($s, '"') && Strings::endsWith($s, '"')) {
+			if (substr($s, 0, 1) === '"' && substr($s, strlen($s) - 1, 1) === '"') {
 				$s = Strings::trim($s, '"');
 			}
 			$s = $this->colorize($s);
@@ -79,18 +79,9 @@ class TracyBar implements SQLLogger, IBarPanel
 
 	private function colorize($sql): string
 	{
-		$class = '';
-		if (Strings::startsWith($sql, 'DELETE')) {
-			$class = 'delete';
-		}
-		if (Strings::startsWith($sql, 'SELECT')) {
-			$class = 'select';
-		}
-		if (Strings::startsWith($sql, 'INSERT')) {
-			$class = 'insert';
-		}
-		if (Strings::startsWith($sql, 'UPDATE')) {
-			$class = 'update';
+		$class = strtolower(substr($sql, 0, 6));
+		if (!in_array($class, ['select', 'update', 'delete', 'insert'])) {
+			$class = '';
 		}
 		$keywords = implode('|', [
 			'DROP TABLE',
