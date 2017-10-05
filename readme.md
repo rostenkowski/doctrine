@@ -2,7 +2,7 @@
 
 *Doctrine 2 integration for Nette Framework*
 
-[![Release](http://github-release-version.herokuapp.com/github/rostenkowski/doctrine/release.svg?style=flat)](https://github.com/rostenkowski/doctrine/releases/latest)
+[![Packagist](https://img.shields.io/packagist/v/rostenkowski/doctrine.svg)]()
 [![Build Status](https://travis-ci.org/rostenkowski/doctrine.svg?branch=master)](https://travis-ci.org/rostenkowski/doctrine)
 [![Coverage Status](https://coveralls.io/repos/github/rostenkowski/doctrine/badge.svg)](https://coveralls.io/github/rostenkowski/doctrine)
 [![Code Climate](https://codeclimate.com/github/rostenkowski/doctrine/badges/gpa.svg)](https://codeclimate.com/github/rostenkowski/doctrine)
