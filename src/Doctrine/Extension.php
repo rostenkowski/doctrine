@@ -1,0 +1,131 @@
+<?php declare(strict_types=1);
+
+namespace Rostenkowski\Doctrine;
+
+
+use Doctrine\Common\Cache\ArrayCache;
+use Doctrine\Common\Cache\PhpFileCache;
+use Doctrine\DBAL\Logging\LoggerChain;
+use Nette\DI\CompilerExtension;
+use Nette\DI\Helpers;
+use Rostenkowski\Doctrine\Debugger\TracyBar;
+use Rostenkowski\Doctrine\Logger\FileLogger;
+use Rostenkowski\Doctrine\Repository\Repository;
+
+class Extension extends CompilerExtension
+{
+
+	/**
+	 * @var bool
+	 */
+	private $debugMode = false;
+
+	/**
+	 * @var array
+	 */
+	private $defaults = [
+		'default' => [
+			'connection' => [
+				'driver'   => NULL,
+				'path'     => NULL,
+				'host'     => NULL,
+				'dbname'   => NULL,
+				'user'     => NULL,
+				'password' => NULL,
+			],
+			'entity'     => [
+				'%appDir%/entities'
+			],
+			'repository' => Repository::class,
+			'debugger'   => [
+				'enabled' => true,
+				'factory' => TracyBar::class,
+			],
+			'log'        => [
+				'enabled' => true,
+				'loggers' => [
+					['factory' => FileLogger::class, 'args' => ['%logDir%/query.log']],
+				],
+			],
+			'cache'      => [
+				'factory' => PhpFileCache::class,
+				'options' => [
+					'dir' => '%tempDir%/doctrine/cache'
+				]
+			],
+			'proxy'      => [
+				'dir' => '%tempDir%/doctrine/proxies',
+			],
+			'function'   => [],
+			'type'       => [],
+		]
+	];
+
+
+	public function __construct(bool $debugMode)
+	{
+		$this->debugMode = $debugMode;
+	}
+
+
+	public function loadConfiguration()
+	{
+		$builder = $this->getContainerBuilder();
+
+		$configs = Helpers::expand($this->validateConfig($this->defaults), $builder->parameters);
+
+		foreach ($configs as $name => $config) {
+
+			// create cache
+			$cache = $builder->addDefinition($this->prefix("{$name}.cache"));
+			if ($this->debugMode) {
+				$cache->setFactory(ArrayCache::class);
+			} else {
+				$cache->setFactory($config['cache']['factory'], [$config['cache']['options']['dir']]);
+			}
+
+			// create config
+			$configuration = $builder->addDefinition($this->prefix("{$name}.config"))
+				->setFactory('Doctrine\ORM\Tools\Setup::createAnnotationMetadataConfiguration', [
+					$config['entity'],
+					$this->debugMode,
+					$config['proxy']['dir'],
+					$this->prefix("@{$name}.cache"),
+				]);
+
+			// log
+			$log = $builder->addDefinition($this->prefix("{$name}.log"))
+				->setFactory(LoggerChain::class);
+			$configuration->addSetup('setSQLLogger', [$this->prefix("@{$name}.log")]);
+
+			// debugger
+			if ($this->debugMode && $config['debugger']['enabled']) {
+				$builder->addDefinition($this->prefix("{$name}.debugger"))
+					->setFactory(TracyBar::class)
+					->addSetup('Tracy\Debugger::getBar()->addPanel(?);', ['@self']);
+				$log->addSetup('addLogger', [$this->prefix("@{$name}.debugger")]);
+			}
+
+			// loggers
+			if ($config['log']['enabled']) {
+				foreach ($config['log']['loggers'] as $i => $logger) {
+					$builder->addDefinition($this->prefix("{$name}.logger.{$i}"))
+						->setFactory($logger['factory'], $logger['args']);
+					$log->addSetup('addLogger', [$this->prefix("@{$name}.logger.{$i}")]);
+				}
+			}
+
+			// repository
+			$configuration->addSetup('setDefaultRepositoryClassName', [$config['repository']]);
+
+			// entity manager
+			$builder->addDefinition($this->prefix("{$name}.em"))
+				->setFactory('Doctrine\ORM\EntityManager::create', [$config['connection'], $this->prefix("@{$name}.config")])
+				->setAutowired($name === 'default');
+
+		}
+
+
+	}
+
+}

@@ -1,0 +1,47 @@
+<h1>
+	<svg style="position:relative; top: 3px;" viewBox="0 0 24 24" width="24" height="24"><path fill="%s" d="M22 15.055v2.458c0 1.925-4.655 3.487-10 3.487-5.344 0-10-1.562-10-3.487v-2.458c2.418 1.738 7.005 2.256 10 2.256 3.006 0 7.588-.523 10-2.256zm-10-12.055c-5.344 0-10 1.486-10 3.32s4.656 3.32 10 3.32c5.345 0 10-1.486 10-3.32s-4.655-3.32-10-3.32zm0 8.64c-3.006 0-7.588-.523-10-2.256v2.44c0 1.926 4.656 3.487 10 3.487 5.345 0 10-1.562 10-3.487v-2.44c-2.418 1.738-7.005 2.256-10 2.256z"/></svg>
+	%s / %s queries
+</h1>
+<div class="tracy-inner" style="max-width: 960px; max-height: 720px;">
+	<table>
+		<thead>
+		<tr>
+			<th>Execution&nbsp;Time</th>
+			<th>Query</th>
+		</tr>
+		</thead>
+		<tbody class="doctrine-debugger">
+%s
+		</tbody>
+	</table>
+</div>
+<style>
+	#tracy-debug .doctrine-debugger .tracy-toggle.tracy-collapsed:after {
+		position: relative;
+		top: -1px;
+	}
+	#tracy-debug .doctrine-debugger .tracy-toggle {
+		color: #555555;
+	}
+	#tracy-debug .doctrine-debugger .tracy-dump-array, #tracy-debug .tracy-dump-object {
+		color: #555555;
+	}
+	#tracy-debug .doctrine-debugger .query {
+		font-family: monospace;
+	}
+	#tracy-debug .doctrine-debugger .query b {
+		color: #555555;
+	}
+	#tracy-debug .doctrine-debugger .query.select b {
+		color: #187096;
+	}
+	#tracy-debug .doctrine-debugger .query.update b {
+		color: #FF7F00;
+	}
+	#tracy-debug .doctrine-debugger .query.delete b {
+		color: #C4240A;
+	}
+	#tracy-debug .doctrine-debugger .query.insert b {
+		color: #268C43;
+	}
+</style>
