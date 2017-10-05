@@ -3,7 +3,6 @@
 namespace Rostenkowski\Doctrine;
 
 
-use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\Common\Cache\PhpFileCache;
 use Doctrine\DBAL\Logging\LoggerChain;
 use Nette\DI\CompilerExtension;
@@ -68,20 +67,8 @@ class Extension extends CompilerExtension
 	public function loadConfiguration()
 	{
 		$builder = $this->getContainerBuilder();
-
 		$configs = Helpers::expand($this->validateConfig($this->defaults), $builder->parameters);
-
 		foreach ($configs as $name => $config) {
-
-			// create cache
-			$cache = $builder->addDefinition($this->prefix("{$name}.cache"));
-			if ($this->debugMode) {
-				$cache->setFactory(ArrayCache::class);
-			} else {
-				$cache->setFactory($config['cache']['factory'], $config['cache']['args']);
-			}
-
-			// create config
 			$configuration = $builder->addDefinition($this->prefix("{$name}.config"))
 				->setFactory('Doctrine\ORM\Tools\Setup::createAnnotationMetadataConfiguration', [
 					$config['entity'],
@@ -89,38 +76,25 @@ class Extension extends CompilerExtension
 					$config['proxy']['dir'],
 					$this->prefix("@{$name}.cache"),
 				]);
-
-			// log
 			$log = $builder->addDefinition($this->prefix("{$name}.log"))
 				->setFactory(LoggerChain::class);
+			$configuration->addSetup('setDefaultRepositoryClassName', [$config['repository']]);
 			$configuration->addSetup('setSQLLogger', [$this->prefix("@{$name}.log")]);
-
-			// debugger
 			if ($this->debugMode && $config['debugger']['enabled']) {
 				$builder->addDefinition($this->prefix("{$name}.debugger"))
 					->setFactory(TracyBar::class)
 					->addSetup('Tracy\Debugger::getBar()->addPanel(?);', ['@self']);
 				$log->addSetup('addLogger', [$this->prefix("@{$name}.debugger")]);
 			}
-
-			// logger
 			if ($config['logger']['enabled']) {
 				$builder->addDefinition($this->prefix("{$name}.logger"))
 					->setFactory($config['logger']['factory'], $config['logger']['args']);
 				$log->addSetup('addLogger', [$this->prefix("@{$name}.logger")]);
 			}
-
-			// repository
-			$configuration->addSetup('setDefaultRepositoryClassName', [$config['repository']]);
-
-			// entity manager
 			$builder->addDefinition($this->prefix("{$name}.em"))
 				->setFactory('Doctrine\ORM\EntityManager::create', [$config['connection'], $this->prefix("@{$name}.config")])
 				->setAutowired($name === 'default');
-
 		}
-
-
 	}
 
 }
