@@ -29,7 +29,8 @@ doctrine:
 			user: 
 			password:
 				 
-		entity: [ %appDir%/entities ]
+		entity: 
+			- %appDir%/entities
 		
 		logger:
 			enabled: yes
