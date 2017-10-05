@@ -9,10 +9,11 @@
     "ext-mbstring": "*",
     "ext-tokenizer": "*",
     "ext-pdo": "*",
-    "nette/di": "^3",
-    "nette/utils": "^3",
-    "doctrine/orm": "^2",
-    "symfony/console": "^3"
+    "nette/di": "^3.0",
+    "nette/utils": "^3.0",
+    "doctrine/cache": "^1.7",
+    "doctrine/orm": "^2.5",
+    "symfony/console": "^3.4"
   },
   "require-dev": {
     "nette/tester": "^2",
