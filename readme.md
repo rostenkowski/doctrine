@@ -1,4 +1,4 @@
-# doctrine
+# rostenkowski/doctrine
 
 *Doctrine 2 integration for Nette Framework*
 
