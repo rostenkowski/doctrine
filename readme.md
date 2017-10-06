@@ -1,16 +1,18 @@
-# Doctrine
-
-*Doctrine 2 integration for Nette Framework*
+# Doctrine 2.5 for Nette 3.0
 
 [![Build Status](https://travis-ci.org/rostenkowski/doctrine.svg?branch=master)](https://travis-ci.org/rostenkowski/doctrine)
 [![Coverage Status](https://coveralls.io/repos/github/rostenkowski/doctrine/badge.svg)](https://coveralls.io/github/rostenkowski/doctrine)
 [![Code Climate](https://codeclimate.com/github/rostenkowski/doctrine/badges/gpa.svg)](https://codeclimate.com/github/rostenkowski/doctrine)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/rostenkowski/doctrine/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/rostenkowski/doctrine/?branch=master)
 
+
+## Installation
+
 ```bash
 composer require rostenkowski/doctrine
 ```
-## Usage
+## Configuration
+
 ```yaml
 extensions: 
   doctrine: Rostenkowski\Doctrine\Extension 
