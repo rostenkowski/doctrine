@@ -13,7 +13,7 @@ composer require rostenkowski/doctrine
 ## Usage
 ```yaml
 extensions: 
-  doctrine: Rostenkowski\Doctrine\Extension(%debugMode%) 
+  doctrine: Rostenkowski\Doctrine\Extension 
 
 doctrine:
   default:
