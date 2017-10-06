@@ -30,6 +30,7 @@ doctrine:
     
     logger:
       enabled: yes
+      args: [%appDir%/query.log]
       
     debugger:
       enabled: yes

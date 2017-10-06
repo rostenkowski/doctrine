@@ -24,12 +24,13 @@ function container(bool $debugMode = false): Container
 	$loader = new ContainerLoader(TEMP_DIR, true);
 	$class = $loader->load(function (Compiler $compiler) use ($debugMode) {
 
-		$compiler->addExtension('doctrine', new Extension($debugMode));
+		$compiler->addExtension('doctrine', new Extension());
 		$compiler->addConfig([
 			'parameters' => [
-				'appDir'  => __DIR__,
-				'logDir'  => TEMP_DIR,
-				'tempDir' => TEMP_DIR,
+				'debugMode' => $debugMode,
+				'appDir'    => __DIR__,
+				'logDir'    => TEMP_DIR,
+				'tempDir'   => TEMP_DIR,
 			],
 			'doctrine'   => [
 				'default' => [

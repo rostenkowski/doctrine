@@ -16,11 +16,6 @@ class Extension extends CompilerExtension
 {
 
 	/**
-	 * @var bool
-	 */
-	private $debugMode = false;
-
-	/**
 	 * @var array
 	 */
 	private $defaults = [
@@ -38,7 +33,7 @@ class Extension extends CompilerExtension
 			],
 			'repository' => Repository::class,
 			'debugger'   => [
-				'enabled' => true,
+				'enabled' => '%debugMode%',
 				'factory' => TracyBar::class,
 			],
 			'logger'     => [
@@ -59,12 +54,6 @@ class Extension extends CompilerExtension
 	];
 
 
-	public function __construct(bool $debugMode)
-	{
-		$this->debugMode = $debugMode;
-	}
-
-
 	public function loadConfiguration()
 	{
 		$builder = $this->getContainerBuilder();
@@ -73,7 +62,7 @@ class Extension extends CompilerExtension
 			$configuration = $builder->addDefinition($this->prefix("{$name}.config"))
 				->setFactory('Doctrine\ORM\Tools\Setup::createAnnotationMetadataConfiguration', [
 					$config['entity'],
-					$this->debugMode,
+					$config['debugger']['enabled'],
 					$config['proxy']['dir'],
 					$this->prefix("@{$name}.cache"),
 				]);
@@ -81,16 +70,17 @@ class Extension extends CompilerExtension
 				->setFactory(LoggerChain::class);
 			$configuration->addSetup('setDefaultRepositoryClassName', [$config['repository']]);
 			$configuration->addSetup('setSQLLogger', [$this->prefix("@{$name}.log")]);
-			if ($this->debugMode && $config['debugger']['enabled']) {
+			if ($config['debugger']['enabled']) {
 				$builder->addDefinition($this->prefix("{$name}.debugger"))
 					->setFactory(TracyBar::class)
 					->addSetup('Tracy\Debugger::getBar()->addPanel(?);', ['@self']);
 				$log->addSetup('addLogger', [$this->prefix("@{$name}.debugger")]);
 			}
-			$cache = $builder->addDefinition($this->prefix("{$name}.cache"))
-				->setFactory($config['cache']['factory'], $config['cache']['args']);
-			if ($this->debugMode) {
+			$cache = $builder->addDefinition($this->prefix("{$name}.cache"));
+			if ($config['debugger']['enabled']) {
 				$cache->setFactory(ArrayCache::class);
+			} else {
+				$cache->setFactory($config['cache']['factory'], $config['cache']['args']);
 			}
 			if ($config['logger']['enabled']) {
 				$builder->addDefinition($this->prefix("{$name}.logger"))
