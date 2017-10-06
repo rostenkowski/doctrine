@@ -10,32 +10,27 @@
 ```bash
 composer require rostenkowski/doctrine
 ```
-
 ## Usage
-
-```neon
+```yaml
 extensions: 
-	doctrine: Rostenkowski\Doctrine\Extension
-	
+	doctrine: Rostenkowski\Doctrine\Extension(%debugMode%) 
+
 doctrine:
 	default:
 		connection:
 			driver: pdo_sqlite 
-			path: %appDir%/db.sqlite
-			host: 
+			path: %appDir%/db.sqlite 
+			host:  
 			dbname: 
 			user: 
-			password:
+			password: 
 				 
 		entity: 
-			- %appDir%/entities
+			- %appDir%/entities 
 		
 		logger:
 			enabled: yes
-			factory: Rostenkowski\Doctrine\Logger\FileLogger
-			args: %logDir%/query.log
 			
 		debugger:
 			enabled: yes
 ```
-
