@@ -34,7 +34,7 @@ doctrine:
       enabled: no
 ```
 
-## Advanced log setup
+## Advanced logging setup
 ```yaml
 doctrine:
   default:
