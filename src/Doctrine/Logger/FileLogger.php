@@ -41,7 +41,7 @@ class FileLogger implements SQLLogger
 
 	public function startQuery($sql, array $params = NULL, array $types = NULL)
 	{
-		$this->start = microtime(true);
+		$this->start = (float) microtime(true);
 		$this->queries[++$this->current] = ['sql' => $sql, 'params' => $params, 'types' => $types, 'dur' => 0];
 	}
 
@@ -49,7 +49,7 @@ class FileLogger implements SQLLogger
 	public function stopQuery()
 	{
 		$q = $this->queries[$this->current];
-		$q['dur'] = microtime(true) - $this->start;
+		$q['dur'] = (float) microtime(true) - $this->start;
 		$log = sprintf("%s \n\n%s \n\n%s ms \n\n%s \n\n",
 			"#$this->current:",
 			$q['sql'],

@@ -136,13 +136,13 @@ class TracyBar implements SQLLogger, IBarPanel
 
 	public function startQuery($sql, array $params = NULL, array $types = NULL)
 	{
-		$this->start = microtime(true);
+		$this->start = (float) microtime(true);
 		$this->queries[++$this->current] = ['sql' => Strings::trim($sql), 'params' => $params, 'types' => $types, 'dur' => 0];
 	}
 
 
 	public function stopQuery()
 	{
-		$this->queries[$this->current]['dur'] = microtime(true) - $this->start;
+		$this->queries[$this->current]['dur'] = (float) microtime(true) - $this->start;
 	}
 }
