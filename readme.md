@@ -1,4 +1,4 @@
-# Doctrine <b style="font-weight: normal">2.5</b> for Nette 3.0
+# Doctrine 2 for Nette 3.0
 
 [![Build Status](https://travis-ci.org/rostenkowski/doctrine.svg?branch=master)](https://travis-ci.org/rostenkowski/doctrine)
 [![Coverage Status](https://coveralls.io/repos/github/rostenkowski/doctrine/badge.svg)](https://coveralls.io/github/rostenkowski/doctrine)
