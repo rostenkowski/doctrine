@@ -26,13 +26,20 @@ doctrine:
       dbname: 
       user: 
       password: 
-         
     entity: 
       - %appDir%/entities 
-    
     logger:
       enabled: yes
-      
     debugger:
+      enabled: no
+```
+
+## Advanced log setup
+```yaml
+doctrine:
+  default:
+    logger:
       enabled: yes
+      factory: MyNamespace\MyLogger # it must create Doctrine\DBAL\Logging\SQLLogger  
+      args: [ '...', '...' ] # will be passed to the factory 
 ```
