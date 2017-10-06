@@ -38,8 +38,9 @@ doctrine:
 ```yaml
 doctrine:
   default:
+    # ...
     logger:
       enabled: yes
-      factory: MyNamespace\MyLogger # it must create Doctrine\DBAL\Logging\SQLLogger  
-      args: [ '...', '...' ] # will be passed to the factory 
+      factory: MyNamespace\MyLogger # should create Doctrine\DBAL\Logging\SQLLogger  
+      args: [ '...', '...' ]        # optional arguments passed to the factory         
 ```
