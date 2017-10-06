@@ -13,24 +13,24 @@ composer require rostenkowski/doctrine
 ## Usage
 ```yaml
 extensions: 
-	doctrine: Rostenkowski\Doctrine\Extension(%debugMode%) 
+  doctrine: Rostenkowski\Doctrine\Extension(%debugMode%) 
 
 doctrine:
-	default:
-		connection:
-			driver: pdo_sqlite 
-			path: %appDir%/db.sqlite 
-			host:  
-			dbname: 
-			user: 
-			password: 
-				 
-		entity: 
-			- %appDir%/entities 
-		
-		logger:
-			enabled: yes
-			
-		debugger:
-			enabled: yes
+  default:
+    connection:
+      driver: pdo_sqlite 
+      path: %appDir%/db.sqlite 
+      host:  
+      dbname: 
+      user: 
+      password: 
+         
+    entity: 
+      - %appDir%/entities 
+    
+    logger:
+      enabled: yes
+      
+    debugger:
+      enabled: yes
 ```
