@@ -41,6 +41,8 @@ doctrine:
     # ...
     logger:
       enabled: yes
-      factory: MyNamespace\MyLogger # should create Doctrine\DBAL\Logging\SQLLogger  
-      args: [ '...', '...' ]        # optional arguments passed to the factory         
+      # factory or class implementing Doctrine\DBAL\Logging\SQLLogger  
+      factory: MyNamespace\MyLogger 
+      # optional arguments passed to the factory         
+      args: [ '...', '...' ]        
 ```
