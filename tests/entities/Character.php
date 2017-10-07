@@ -9,7 +9,7 @@ use Rostenkowski\Doctrine\Entity\Name;
 /**
  * @Entity
  */
-class Vendor
+class Character
 {
 
 	use Id;

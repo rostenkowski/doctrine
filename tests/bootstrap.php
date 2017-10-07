@@ -52,10 +52,10 @@ function em(bool $debugMode = false): EntityManager
 	$em = $c->getByType(EntityManager::class);
 	$s = new SchemaTool($em);
 	$s->dropSchema([
-		$em->getClassMetadata(Vendor::class),
+		$em->getClassMetadata(Character::class),
 	]);
 	$s->createSchema([
-		$em->getClassMetadata(Vendor::class),
+		$em->getClassMetadata(Character::class),
 	]);
 
 	return $em;

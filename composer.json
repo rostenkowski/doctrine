@@ -25,7 +25,6 @@
     "psr-4": {
       "Rostenkowski\\Doctrine\\": [
         "src/Doctrine",
-        "tests",
         "tests/entities",
         "tests/queries"
       ]

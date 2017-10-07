@@ -14,21 +14,21 @@ require __DIR__ . '/../bootstrap.php';
  */
 $em = em();
 
-$vendor1 = new Vendor();
-$vendor2 = new Vendor();
-$vendor3 = new Vendor();
+$character1 = new Character();
+$character2 = new Character();
+$character3 = new Character();
 
-$em->persist($vendor1);
-$em->persist($vendor2);
-$em->persist($vendor3);
+$em->persist($character1);
+$em->persist($character2);
+$em->persist($character3);
 $em->flush();
 
-$repo = $em->getRepository(Vendor::class);
+$repo = $em->getRepository(Character::class);
 
-$results = $repo->search(new VendorQuery());
+$results = $repo->search(new CharacterQuery());
 Assert::count(3, $results);
 
-$q = new VendorQuery();
+$q = new CharacterQuery();
 $p = new Nette\Utils\Paginator();
 $p->setItemsPerPage(10);
 $q->setPaginator($p);

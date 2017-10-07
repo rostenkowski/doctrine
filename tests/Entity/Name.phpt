@@ -13,12 +13,12 @@ require __DIR__ . '/../bootstrap.php';
  */
 $em = em();
 
-$vendor = new Vendor();
-$vendor->setName('ASUS');
+$character = new Character();
+$character->setName('John Zoidberg');
 
-$em->persist($vendor);
+$em->persist($character);
 $em->flush();
 
-$vendor = $em->find(Vendor::class, 1);
+$character = $em->find(Character::class, 1);
 
-Assert::same('ASUS', $vendor->getName());
+Assert::same('John Zoidberg', $character->getName());
