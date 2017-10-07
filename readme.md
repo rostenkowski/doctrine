@@ -63,6 +63,8 @@ doctrine:
 ```
 ## Debugger Bar
 
+![Screenshot](https://cdn.pbrd.co/images/GNMxfwu.png)
+
 - custom debugger panel width and height can be set this way: 
 
 ```yaml
