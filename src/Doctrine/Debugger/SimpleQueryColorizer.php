@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Rostenkowski\Doctrine\Debugger;
 
@@ -50,7 +50,7 @@ class SimpleQueryColorizer
 
 	public function colorize(string $sql): string
 	{
-		// determine specific query type
+		// each query type has custom colors
 		$type = strtolower(substr($sql, 0, 6));
 		if (!in_array($type, ['select', 'update', 'delete', 'insert'])) {
 			$type = '';

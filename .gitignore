@@ -1,4 +1,4 @@
-tests/**/output
 tests/temp
+tests/**/output
 vendor
 composer.lock

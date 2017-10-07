@@ -18,61 +18,56 @@ extensions:
   doctrine: Rostenkowski\Doctrine\Extension
 
 doctrine:
-  default:
-    connection:
-      ...
-    entity: 
-      - %appDir%/entities 
+  connection:
+    ...
+  entity: 
+    - %appDir%/entities 
 ```
 #### SQLite   
 ```yaml
 doctrine:
-  default:
-    connection:
-      driver: pdo_sqlite 
-      path: %appDir%/db.sqlite 
-    ... 
+  connection:
+    driver: pdo_sqlite 
+    path: %appDir%/db.sqlite 
+  ... 
 ```
 
 #### PostgreSQL 
 ```yaml
 doctrine:
-  default:
-    connection:
-      driver: pdo_pgsql
-      host: 127.0.0.1  
-      dbname: database
-      user: user
-      password: ***
-    ...
+  connection:
+    driver: pdo_pgsql
+    host: 127.0.0.1  
+    dbname: database
+    user: user
+    password: ***
+  ...
 ```
 
 ## Custom Logger 
 
-- mandatory `factory` must be or must return a class implementing the `Doctrine\DBAL\Logging\SQLLogger` interface
-- optional `args` are passed to the factory or constructor
+Mandatory `factory` must be or must return a class implementing the `Doctrine\DBAL\Logging\SQLLogger` interface. 
+Optional `args` are passed to the factory or constructor.
 
 ```yaml
 doctrine:
-  default:
-    ...
-    logger:
-      enabled: yes
-      factory: SomeNamespace\CustomLogger 
-      args: [ some, parameters ]        
+  ...
+  logger:
+    enabled: yes
+    factory: SomeNamespace\CustomLogger 
+    args: [ some, parameters ]        
 ```
 ## Debugger Bar
 
-![Screenshot](https://cdn.pbrd.co/images/GNMxfwu.png)
-
-- custom debugger panel width and height can be set this way: 
+Custom debugger panel width and height can be set.  
 
 ```yaml
 doctrine:
-  default:
-    ...
-    debugger:
-      enabled: yes
-      width: 960px
-      height: 720px
+  ...
+  debugger:
+    enabled: yes
+    width: 960px
+    height: 720px
 ```
+
+![Screenshot](https://cdn.pbrd.co/images/GNMxfwu.png)

@@ -13,6 +13,6 @@ require __DIR__ . '/../bootstrap.php';
  */
 $container = container(true);
 
-Assert::type(Doctrine\Common\Cache\ArrayCache::class, $container->getService('doctrine.default.cache'));
+Assert::type(Doctrine\Common\Cache\ArrayCache::class, $container->getService('doctrine.cache'));
 
-Assert::true($container->hasService('doctrine.default.debugger'));
+Assert::true($container->hasService('doctrine.debugger'));
