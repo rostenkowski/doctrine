@@ -18,8 +18,6 @@ extensions:
   doctrine: Rostenkowski\Doctrine\Extension
 
 doctrine:
-  connection:
-    ...
   entity: 
     - %appDir%/entities 
 ```
@@ -29,7 +27,6 @@ doctrine:
   connection:
     driver: pdo_sqlite 
     path: %appDir%/db.sqlite 
-  ... 
 ```
 
 #### PostgreSQL 
@@ -41,7 +38,6 @@ doctrine:
     dbname: database
     user: user
     password: ***
-  ...
 ```
 
 ## Custom Logger 
@@ -51,7 +47,6 @@ Optional `args` are passed to the factory or constructor.
 
 ```yaml
 doctrine:
-  ...
   logger:
     enabled: yes
     factory: SomeNamespace\CustomLogger 
@@ -63,7 +58,6 @@ Custom debugger panel width and height can be set.
 
 ```yaml
 doctrine:
-  ...
   debugger:
     enabled: yes
     width: 960px
