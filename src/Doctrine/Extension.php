@@ -49,7 +49,7 @@ class Extension extends CompilerExtension
 			'user'     => NULL,
 			'password' => NULL,
 		],
-		'entity'     => [
+		'entities'   => [
 			'%appDir%/entities'
 		],
 		'repository' => Repository::class,
@@ -103,7 +103,7 @@ class Extension extends CompilerExtension
 		// create configuration
 		$configuration = $builder->addDefinition($this->prefix('config'))
 			->setFactory('Doctrine\ORM\Tools\Setup::createAnnotationMetadataConfiguration', [
-				$config['entity'],
+				$config['entities'],
 				$config['debugger']['enabled'],
 				$config['proxy']['dir'],
 				$this->prefix('@cache'),

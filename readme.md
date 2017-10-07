@@ -18,7 +18,7 @@ extensions:
   doctrine: Rostenkowski\Doctrine\Extension
 
 doctrine:
-  entity: 
+  entities: 
     - %appDir%/entities 
 ```
 #### SQLite   
