@@ -34,7 +34,7 @@ doctrine:
       enabled: no
 ```
 
-## Advanced logging setup
+## Advanced Log Setup
 ```yaml
 doctrine:
   default:
@@ -45,4 +45,17 @@ doctrine:
       factory: MyNamespace\MyLogger 
       # optional arguments passed to the factory         
       args: [ '...', '...' ]        
+```
+## Advanced debugger Setup
+
+```yaml
+doctrine:
+  default:
+    # ...
+    debugger:
+      enabled: yes
+      # css width of the query panel
+      width: '960px'
+      # css height of the query panel
+      height: '720px'
 ```
