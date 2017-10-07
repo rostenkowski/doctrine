@@ -9,11 +9,13 @@
 ```bash
 composer require rostenkowski/doctrine
 ```
+## Usage
+
 ```yaml
 extensions: 
   doctrine: Rostenkowski\Doctrine\Extension
 ```
-## Mapped entities
+### Mapped entities
 
 ```yaml
 doctrine:
@@ -21,7 +23,7 @@ doctrine:
     - %appDir%/entities
     - %baseDir%/libs/more-entities
 ```
-#### SQLite Connection   
+### SQLite Connection   
 ```yaml
 doctrine:
   connection:
@@ -29,7 +31,7 @@ doctrine:
     path: %appDir%/db.sqlite 
 ```
 
-#### PostgreSQL Connection
+### PostgreSQL Connection
 ```yaml
 doctrine:
   connection:
@@ -40,7 +42,7 @@ doctrine:
     password: ***
 ```
 
-## Custom Logger 
+### Setup Custom Logger 
 Mandatory `factory` must be or must return a class implementing the `Doctrine\DBAL\Logging\SQLLogger` interface. 
 Optional `args` are passed to the factory or constructor.
 ```yaml
@@ -50,7 +52,7 @@ doctrine:
     factory: SomeNamespace\CustomLogger 
     args: [ some, parameters ]        
 ```
-## Debugger Bar
+### Tracy Debugger Bar
 Custom debugger panel width and height can be set.  
 ```yaml
 doctrine:
