@@ -11,51 +11,66 @@
 ```bash
 composer require rostenkowski/doctrine
 ```
-## Configuration
+## Setup
 
 ```yaml
 extensions: 
-  doctrine: Rostenkowski\Doctrine\Extension 
+  doctrine: Rostenkowski\Doctrine\Extension
 
+doctrine:
+  default:
+    connection:
+    	...
+    entity: 
+      - %appDir%/entities 
+```
+### SQLite   
+```yaml
 doctrine:
   default:
     connection:
       driver: pdo_sqlite 
       path: %appDir%/db.sqlite 
-      host:  
-      dbname: 
-      user: 
-      password: 
-    entity: 
-      - %appDir%/entities 
-    logger:
-      enabled: yes
-    debugger:
-      enabled: no
+    ... 
 ```
 
-## Advanced Log Setup
+### PostgreSQL 
 ```yaml
 doctrine:
   default:
-    # ...
+    connection:
+      driver: pdo_pglite 
+      host: 127.0.0.1  
+      dbname: database
+      user: user
+      password: ***
+    ...
+```
+
+## Custom Logger 
+
+- mandatory `factory` must be or must return a class implementing the `Doctrine\DBAL\Logging\SQLLogger` interface
+- optional `args` are passed to the factory or constructor
+
+```yaml
+doctrine:
+  default:
+    ...
     logger:
       enabled: yes
-      # factory or class implementing Doctrine\DBAL\Logging\SQLLogger  
       factory: MyNamespace\MyLogger 
-      # optional arguments passed to the factory         
       args: [ '...', '...' ]        
 ```
-## Advanced debugger Setup
+## Debugger Bar
+
+- custom debugger panel width and height can be set this way: 
 
 ```yaml
 doctrine:
   default:
-    # ...
+    ...
     debugger:
       enabled: yes
-      # css width of the query panel
-      width: '960px'
-      # css height of the query panel
-      height: '720px'
+      width: 960px
+      height: 720px
 ```
