@@ -24,7 +24,7 @@ doctrine:
     entity: 
       - %appDir%/entities 
 ```
-### SQLite   
+#### SQLite   
 ```yaml
 doctrine:
   default:
@@ -34,7 +34,7 @@ doctrine:
     ... 
 ```
 
-### PostgreSQL 
+#### PostgreSQL 
 ```yaml
 doctrine:
   default:
