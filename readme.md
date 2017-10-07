@@ -39,7 +39,7 @@ doctrine:
 doctrine:
   default:
     connection:
-      driver: pdo_pglite 
+      driver: pdo_pgsql
       host: 127.0.0.1  
       dbname: database
       user: user
