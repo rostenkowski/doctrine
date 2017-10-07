@@ -5,23 +5,23 @@
 [![Code Climate](https://codeclimate.com/github/rostenkowski/doctrine/badges/gpa.svg)](https://codeclimate.com/github/rostenkowski/doctrine)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/rostenkowski/doctrine/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/rostenkowski/doctrine/?branch=master)
 
-
 ## Installation
-
 ```bash
 composer require rostenkowski/doctrine
 ```
-## Setup
-
 ```yaml
 extensions: 
   doctrine: Rostenkowski\Doctrine\Extension
+```
+## Mapped entities
 
+```yaml
 doctrine:
   entities: 
-    - %appDir%/entities 
+    - %appDir%/entities
+    - %baseDir%/libs/more-entities
 ```
-#### SQLite   
+#### SQLite Connection   
 ```yaml
 doctrine:
   connection:
@@ -29,7 +29,7 @@ doctrine:
     path: %appDir%/db.sqlite 
 ```
 
-#### PostgreSQL 
+#### PostgreSQL Connection
 ```yaml
 doctrine:
   connection:
@@ -41,10 +41,8 @@ doctrine:
 ```
 
 ## Custom Logger 
-
 Mandatory `factory` must be or must return a class implementing the `Doctrine\DBAL\Logging\SQLLogger` interface. 
 Optional `args` are passed to the factory or constructor.
-
 ```yaml
 doctrine:
   logger:
@@ -53,9 +51,7 @@ doctrine:
     args: [ some, parameters ]        
 ```
 ## Debugger Bar
-
 Custom debugger panel width and height can be set.  
-
 ```yaml
 doctrine:
   debugger:
