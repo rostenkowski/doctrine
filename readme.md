@@ -20,7 +20,7 @@ extensions:
 doctrine:
   default:
     connection:
-    	...
+      ...
     entity: 
       - %appDir%/entities 
 ```
@@ -58,8 +58,8 @@ doctrine:
     ...
     logger:
       enabled: yes
-      factory: MyNamespace\MyLogger 
-      args: [ '...', '...' ]        
+      factory: SomeNamespace\CustomLogger 
+      args: [ some, parameters ]        
 ```
 ## Debugger Bar
 
