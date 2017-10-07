@@ -5,9 +5,11 @@ namespace Rostenkowski\Doctrine;
 
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\Common\Cache\PhpFileCache;
+use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Logging\LoggerChain;
 use Doctrine\DBAL\Tools\Console\Command\ImportCommand;
 use Doctrine\DBAL\Tools\Console\Command\RunSqlCommand;
+use Doctrine\DBAL\Tools\Console\Helper\ConnectionHelper;
 use Doctrine\ORM\Tools\Console\Command\ClearCache\MetadataCommand;
 use Doctrine\ORM\Tools\Console\Command\ClearCache\QueryCommand;
 use Doctrine\ORM\Tools\Console\Command\ClearCache\ResultCommand;
@@ -101,13 +103,25 @@ class Extension extends CompilerExtension
 		$this->config = $config = Helpers::expand($this->validateConfig($this->defaults), $builder->parameters);
 
 		// create configuration
-		$configuration = $builder->addDefinition($this->prefix('config'))
+		$configuration = $builder->addDefinition($this->prefix('configuration'))
 			->setFactory('Doctrine\ORM\Tools\Setup::createAnnotationMetadataConfiguration', [
 				$config['entities'],
 				$config['debugger']['enabled'],
 				$config['proxy']['dir'],
 				$this->prefix('@cache'),
 			]);
+
+		// create event manager
+		$evm = $builder->addDefinition($this->prefix('eventManager'));
+		$evm->setFactory(EventManager::class);
+
+		// create connection
+		$connection = $builder->addDefinition($this->prefix('connection'));
+		$connection->setFactory('Doctrine\DBAL\DriverManager::getConnection', [
+			$config['connection'],
+			$this->prefix('@configuration'),
+			$this->prefix('@eventManager'),
+		]);
 
 		// create logger
 		$log = $builder->addDefinition($this->prefix('log'))
@@ -144,7 +158,7 @@ class Extension extends CompilerExtension
 
 		// create entity manager
 		$builder->addDefinition($this->prefix('entityManager'))
-			->setFactory('Doctrine\ORM\EntityManager::create', [$config['connection'], $this->prefix('@config')])
+			->setFactory('Doctrine\ORM\EntityManager::create', [$this->prefix('@connection'), $this->prefix('@configuration')])
 			->setAutowired(true);
 	}
 
@@ -154,7 +168,7 @@ class Extension extends CompilerExtension
 		$config = $this->getConfig();
 		$builder = $this->getContainerBuilder();
 
-		// add console
+		// add console if none defined
 		if ($builder->findByType(Application::class)) {
 			$console = $builder->getDefinition($builder->getByType(Application::class));
 		} else {
@@ -162,9 +176,13 @@ class Extension extends CompilerExtension
 			$console->setFactory(Application::class, ['doctrine console']);
 		}
 
-		// create entity manager helper
+		// create entity manager helper for orm commands
 		$em = $builder->addDefinition($this->prefix('em'));
 		$em->setFactory(EntityManagerHelper::class);
+
+		// create connection helper for dbal commands
+		$db = $builder->addDefinition($this->prefix('db'));
+		$db->setFactory(ConnectionHelper::class, [$this->prefix('@connection')]);
 
 		// create helper set
 		if ($builder->findByType(HelperSet::class)) {
@@ -180,8 +198,9 @@ class Extension extends CompilerExtension
 			]]);
 		}
 
-		// add entity manager helper to application helper set
+		// add helpers to helper set
 		$helpers->addSetup('set', [$this->prefix('@em'), 'em']);
+		$helpers->addSetup('set', [$this->prefix('@db'), 'db']);
 
 		// set helper set as application helper set
 		$console->addSetup('setHelperSet');
