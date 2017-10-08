@@ -1,6 +1,6 @@
 # Doctrine 
 
-Latest **Doctrine** integration for **Nette Framework 3**
+Latest [Doctrine](http://www.doctrine-project.org/) integration for [Nette Framework](https://nette.org) 
 
 [![Build Status](https://travis-ci.org/rostenkowski/doctrine.svg?branch=master)](https://travis-ci.org/rostenkowski/doctrine)
 [![Coverage Status](https://coveralls.io/repos/github/rostenkowski/doctrine/badge.svg)](https://coveralls.io/github/rostenkowski/doctrine)
