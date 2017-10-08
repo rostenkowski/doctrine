@@ -1,4 +1,6 @@
-# Doctrine 2 for Nette 3.0
+# Doctrine 
+
+Latest Doctrine 2 integration for Nette Framework 3
 
 [![Build Status](https://travis-ci.org/rostenkowski/doctrine.svg?branch=master)](https://travis-ci.org/rostenkowski/doctrine)
 [![Coverage Status](https://coveralls.io/repos/github/rostenkowski/doctrine/badge.svg)](https://coveralls.io/github/rostenkowski/doctrine)

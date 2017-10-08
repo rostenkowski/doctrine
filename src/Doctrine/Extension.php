@@ -212,6 +212,7 @@ class Extension extends CompilerExtension
 			$command->setFactory($class);
 			$command->addSetup('setName', [$commandName]);
 			$console->addSetup('add', [$this->prefix("@$commandServiceName")]);
+			$console->addTag('console', true);
 		}
 	}
 }
