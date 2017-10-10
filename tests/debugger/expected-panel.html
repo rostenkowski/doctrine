@@ -16,30 +16,42 @@
 		<tbody class="doctrine-debugger">
 		<tr>
 	<td style="text-align: right">%f% ms</td>
-	<td><div class='query '><span class="reserved">START TRANSACTION</span></div> </td>
+	<td><div class='query '><span class="reserved">START TRANSACTION</span></div>
+		%a%
+	</td>
 </tr>
 <tr>
 	<td style="text-align: right">%f% ms</td>
-	<td><div class='query select'><span class="reserved">SELECT</span> * <br><span class="reserved">FROM</span> character</div> </td>
+	<td><div class='query select'><span class="reserved">SELECT</span> * <br><span class="reserved">FROM</span> character</div>
+		%a%
+	</td>
 </tr>
 <tr>
 	<td style="text-align: right">%f% ms</td>
-	<td><div class='query delete'><span class="reserved">DELETE</span> <br><span class="reserved">FROM</span> character <br><span class="reserved">WHERE</span> id = ?</div> </td>
+	<td><div class='query delete'><span class="reserved">DELETE</span> <br><span class="reserved">FROM</span> character <br><span class="reserved">WHERE</span> id = ?</div>
+		%a%
+	</td>
 </tr>
 <tr>
 	<td style="text-align: right">%f% ms</td>
-	<td><div class='query insert'><span class="reserved">INSERT</span> <span class="reserved">INTO</span> character (name) <span class="reserved">VALUES</span> (?)</div> </td>
+	<td><div class='query insert'><span class="reserved">INSERT</span> <span class="reserved">INTO</span> character (name) <span class="reserved">VALUES</span> (?)</div>
+		%a%
+	</td>
 </tr>
 <tr>
 	<td style="text-align: right">%f% ms</td>
 	<td><div class='query update'><span class="reserved">UPDATE</span> character <span class="reserved">SET</span> (name = ?)</div> <pre class="tracy-dump"><span class="tracy-toggle tracy-collapsed"><span class="tracy-dump-array">array</span> (1)</span>
 <div class="tracy-collapsed"><span class="tracy-dump-indent">   </span><span class="tracy-dump-key">0</span> => <span class="tracy-dump-string">"John Zoidberg"</span> (13)
 </div></pre>
-</td>
+
+		%a%
+	</td>
 </tr>
 <tr>
 	<td style="text-align: right">%f% ms</td>
-	<td><div class='query '><span class="reserved">COMMIT</span></div> </td>
+	<td><div class='query '><span class="reserved">COMMIT</span></div>
+		%a%
+	</td>
 </tr>
 
 		</tbody>

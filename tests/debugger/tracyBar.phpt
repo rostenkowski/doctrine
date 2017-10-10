@@ -12,7 +12,7 @@ require __DIR__ . '/../bootstrap.php';
 /**
  * TEST: tracy debugger bar
  */
-$debugger = new TracyBar();
+$debugger = new TracyBar(__DIR__ . '/../');
 
 $debugger->setWidth('961px');
 $debugger->setHeight('721px');

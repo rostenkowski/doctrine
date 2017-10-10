@@ -4,11 +4,26 @@ namespace Rostenkowski\Doctrine\Debugger;
 
 
 use Doctrine\DBAL\Logging\SQLLogger;
+use Nette\Utils\Html;
+use const PHP_EOL;
 use Tracy\Dumper;
+use Tracy\Helpers;
 use Tracy\IBarPanel;
+use const DEBUG_BACKTRACE_IGNORE_ARGS;
+use function count;
+use function debug_backtrace;
+use function dirname;
+use function strlen;
+use function substr;
+use function var_dump;
 
 class TracyBar implements SQLLogger, IBarPanel
 {
+
+	/**
+	 * @var string
+	 */
+	private $appDir;
 
 	/**
 	 * @var float
@@ -42,6 +57,12 @@ class TracyBar implements SQLLogger, IBarPanel
 	private $height = '720px';
 
 
+	public function __construct(string $appDir)
+	{
+		$this->appDir = $appDir;
+	}
+
+
 	public function getHeight(): string
 	{
 		return $this->height;
@@ -64,10 +85,15 @@ class TracyBar implements SQLLogger, IBarPanel
 		$buffer = '';
 		$colorizer = new SimpleQueryColorizer();
 		foreach ($this->queries as $query) {
+
+			$link = Helpers::editorUri($query['file'], $query['line']);
+			$linkText = '…/' . substr($query['file'], strlen(dirname($this->appDir)) + 1) . ':' . $query['line'];
+			$a = Html::el('a')->setAttribute('href', $link)->setText($linkText);
 			$buffer .= sprintf($row,
 				$this->formatTime($query['dur']),
 				$colorizer->colorize($query['sql'], true),
-				$this->dump($query['params'])
+				$this->dump($query['params']),
+				(string) $a
 			);
 		}
 
@@ -136,7 +162,23 @@ class TracyBar implements SQLLogger, IBarPanel
 	public function startQuery($sql, array $params = NULL, array $types = NULL)
 	{
 		$this->start = (float) microtime(true);
-		$this->queries[++$this->current] = ['sql' => trim($sql, " \t\n\r\0\x0B\""), 'params' => $params, 'types' => $types, 'dur' => 0];
+
+		$trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+
+		foreach ($trace as $i => $item) {
+			if (substr($trace[$i]['file'], 0, strlen($this->appDir)) === $this->appDir) {
+				break;
+			}
+		}
+
+		$this->queries[++$this->current] = [
+			'sql'    => trim($sql, " \t\n\r\0\x0B\""),
+			'params' => $params,
+			'types'  => $types,
+			'dur'    => 0,
+			'file'   => $trace[$i]['file'],
+			'line'   => $trace[$i]['line'],
+		];
 	}
 
 
@@ -144,5 +186,6 @@ class TracyBar implements SQLLogger, IBarPanel
 	{
 		$this->queries[$this->current]['dur'] = (float) microtime(true) - $this->start;
 	}
+
 
 }
