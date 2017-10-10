@@ -3,8 +3,9 @@
 namespace Rostenkowski\Doctrine;
 
 
+use Doctrine;
+use Doctrine\Common\Cache\ApcuCache;
 use Doctrine\Common\Cache\ArrayCache;
-use Doctrine\Common\Cache\PhpFileCache;
 use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Logging\LoggerChain;
 use Doctrine\DBAL\Tools\Console\Command\ImportCommand;
@@ -40,6 +41,25 @@ class Extension extends CompilerExtension
 {
 
 	/**
+	 * cache driver name to class map
+	 *
+	 * @var array
+	 */
+	protected $cacheDrivers = array(
+		'none'      => 'Doctrine\Common\Cache\ArrayCache',
+		'apc'       => 'Doctrine\Common\Cache\ApcCache',
+		'redis'     => 'Doctrine\Common\Cache\RedisCache',
+		'fs'        => 'Doctrine\Common\Cache\FilesystemCache',
+		'default'   => 'Doctrine\Common\Cache\FilesystemCache',
+		'phpfile'   => 'Doctrine\Common\Cache\PhpFileCache',
+		'zend'      => 'Doctrine\Common\Cache\ZendDataCache',
+		'wincache'  => 'Doctrine\Common\Cache\WinCache',
+		'xcache'    => 'Doctrine\Common\Cache\XCache',
+		'memcache'  => 'Doctrine\Common\Cache\MemcacheCache',
+		'memcached' => 'Doctrine\Common\Cache\MemcachedCache',
+	);
+
+	/**
 	 * @var array
 	 */
 	private $defaults = [
@@ -67,8 +87,9 @@ class Extension extends CompilerExtension
 			'args'    => ['%logDir%/query.log']
 		],
 		'cache'      => [
-			'factory' => PhpFileCache::class,
-			'args'    => ['%tempDir%/doctrine/cache']
+			'enabled' => true,
+			'factory' => ApcuCache::class,
+			'args'    => []
 		],
 		'proxy'      => [
 			'dir' => '%tempDir%/doctrine/proxies',
@@ -111,6 +132,14 @@ class Extension extends CompilerExtension
 				$this->prefix('@cache'),
 			]);
 
+		// create cache
+		$cache = $builder->addDefinition($this->prefix('cache'));
+		if ($config['cache']['enabled']) {
+			$cache->setFactory($config['cache']['factory'], $config['cache']['args']);
+		} else {
+			$cache->setFactory(ArrayCache::class);
+		}
+
 		// create event manager
 		$evm = $builder->addDefinition($this->prefix('eventManager'));
 		$evm->setFactory(EventManager::class);
@@ -140,14 +169,6 @@ class Extension extends CompilerExtension
 				->addSetup('setWidth', [$config['debugger']['width']])
 				->addSetup('setHeight', [$config['debugger']['height']]);
 			$log->addSetup('addLogger', [$this->prefix('@debugger')]);
-		}
-
-		// create cache
-		$cache = $builder->addDefinition($this->prefix('cache'));
-		if ($config['debugger']['enabled']) {
-			$cache->setFactory(ArrayCache::class);
-		} else {
-			$cache->setFactory($config['cache']['factory'], $config['cache']['args']);
 		}
 
 		// set repository class

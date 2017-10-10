@@ -66,7 +66,7 @@ class TracyBar implements SQLLogger, IBarPanel
 		foreach ($this->queries as $query) {
 			$buffer .= sprintf($row,
 				$this->formatTime($query['dur']),
-				$colorizer->colorize($query['sql']),
+				$colorizer->colorize($query['sql'], true),
 				$this->dump($query['params'])
 			);
 		}

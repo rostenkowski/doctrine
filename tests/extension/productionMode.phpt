@@ -12,7 +12,4 @@ require __DIR__ . '/../bootstrap.php';
  * TEST: doctrine extension in production mode
  */
 $container = container(false);
-
-Assert::type(Doctrine\Common\Cache\PhpFileCache::class, $container->getService('doctrine.cache'));
-
 Assert::false($container->hasService('doctrine.debugger'));

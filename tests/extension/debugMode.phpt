@@ -12,7 +12,4 @@ require __DIR__ . '/../bootstrap.php';
  * TEST: doctrine extension in debug mode
  */
 $container = container(true);
-
-Assert::type(Doctrine\Common\Cache\ArrayCache::class, $container->getService('doctrine.cache'));
-
 Assert::true($container->hasService('doctrine.debugger'));
