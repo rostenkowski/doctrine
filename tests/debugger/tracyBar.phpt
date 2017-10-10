@@ -5,6 +5,7 @@ namespace Rostenkowski\Doctrine;
 
 use Doctrine;
 use Rostenkowski\Doctrine\Debugger\TracyBar;
+use const TEMP_DIR;
 use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';
@@ -12,7 +13,7 @@ require __DIR__ . '/../bootstrap.php';
 /**
  * TEST: tracy debugger bar
  */
-$debugger = new TracyBar(__DIR__ . '/../');
+$debugger = new TracyBar(__DIR__ . '/../', TEMP_DIR);
 
 $debugger->setWidth('961px');
 $debugger->setHeight('721px');
