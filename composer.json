@@ -19,7 +19,7 @@
   },
   "require-dev": {
     "nette/tester": "^2",
-    "tracy/tracy": "^2"
+    "tracy/tracy": "^2.4"
   },
   "autoload": {
     "psr-4": {
