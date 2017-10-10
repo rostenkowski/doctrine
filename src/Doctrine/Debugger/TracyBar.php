@@ -5,7 +5,6 @@ namespace Rostenkowski\Doctrine\Debugger;
 
 use Doctrine\DBAL\Logging\SQLLogger;
 use Nette\Utils\Html;
-use const PHP_EOL;
 use Tracy\Dumper;
 use Tracy\Helpers;
 use Tracy\IBarPanel;
@@ -15,7 +14,6 @@ use function debug_backtrace;
 use function dirname;
 use function strlen;
 use function substr;
-use function var_dump;
 
 class TracyBar implements SQLLogger, IBarPanel
 {
@@ -166,8 +164,10 @@ class TracyBar implements SQLLogger, IBarPanel
 		$trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 
 		foreach ($trace as $i => $item) {
-			if (substr($trace[$i]['file'], 0, strlen($this->appDir)) === $this->appDir) {
-				break;
+			if (isset($trace[$i]['file'])) {
+				if (substr($trace[$i]['file'], 0, strlen($this->appDir)) === $this->appDir) {
+					break;
+				}
 			}
 		}
 
