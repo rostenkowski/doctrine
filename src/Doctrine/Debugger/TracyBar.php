@@ -3,7 +3,6 @@
 namespace Rostenkowski\Doctrine\Debugger;
 
 
-use function array_reverse;
 use Doctrine\DBAL\Logging\SQLLogger;
 use Nette\Utils\Html;
 use Tracy\Dumper;
@@ -23,6 +22,11 @@ class TracyBar implements SQLLogger, IBarPanel
 	 * @var string
 	 */
 	private $appDir;
+
+	/**
+	 * @var string
+	 */
+	private $tempDir;
 
 	/**
 	 * @var float
@@ -56,9 +60,10 @@ class TracyBar implements SQLLogger, IBarPanel
 	private $height = '720px';
 
 
-	public function __construct(string $appDir)
+	public function __construct(string $appDir, string $tempDir)
 	{
 		$this->appDir = $appDir;
+		$this->tempDir = $tempDir;
 	}
 
 
@@ -164,9 +169,13 @@ class TracyBar implements SQLLogger, IBarPanel
 
 		$trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 
-		foreach (array_reverse($trace) as $i => $item) {
+		foreach ($trace as $i => $item) {
 			if (isset($trace[$i]['file'])) {
-				if (substr($trace[$i]['file'], 0, strlen($this->appDir)) === $this->appDir) {
+				if (
+					substr($trace[$i]['file'], 0, strlen($this->tempDir)) === $this->tempDir
+					||
+					substr($trace[$i]['file'], 0, strlen($this->appDir)) === $this->appDir
+				) {
 					break;
 				}
 			}

@@ -79,7 +79,10 @@ class Extension extends CompilerExtension
 			'enabled' => '%debugMode%',
 			'width'   => '960px',
 			'height'  => '720px',
-			'source'  => '%appDir%',
+			'sources' => [
+				'%appDir%',
+				'%tempDir%',
+			],
 		],
 		'logger'     => [
 			'enabled' => true,
@@ -164,7 +167,7 @@ class Extension extends CompilerExtension
 		// create debugger
 		if ($config['debugger']['enabled']) {
 			$builder->addDefinition($this->prefix('debugger'))
-				->setFactory(TracyBar::class, [$config['debugger']['source']])
+				->setFactory(TracyBar::class, $config['debugger']['sources'])
 				->addSetup('Tracy\Debugger::getBar()->addPanel(?);', ['@self'])
 				->addSetup('setWidth', [$config['debugger']['width']])
 				->addSetup('setHeight', [$config['debugger']['height']]);
