@@ -3,6 +3,7 @@
 namespace Rostenkowski\Doctrine\Debugger;
 
 
+use function array_reverse;
 use Doctrine\DBAL\Logging\SQLLogger;
 use Nette\Utils\Html;
 use Tracy\Dumper;
@@ -163,7 +164,7 @@ class TracyBar implements SQLLogger, IBarPanel
 
 		$trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 
-		foreach ($trace as $i => $item) {
+		foreach (array_reverse($trace) as $i => $item) {
 			if (isset($trace[$i]['file'])) {
 				if (substr($trace[$i]['file'], 0, strlen($this->appDir)) === $this->appDir) {
 					break;
