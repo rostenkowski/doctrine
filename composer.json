@@ -11,7 +11,7 @@
     "ext-pdo": "*",
     "nette/di": "^3.0",
     "nette/utils": "^3.0",
-    "doctrine/orm": "^2.6",
+    "doctrine/orm": "^2.7",
     "symfony/console": "^3.4"
   },
   "require-dev": {
