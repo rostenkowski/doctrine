@@ -6,7 +6,6 @@ Latest [Doctrine](http://www.doctrine-project.org/) integration for [Nette Frame
 [![Coverage Status](https://coveralls.io/repos/github/rostenkowski/doctrine/badge.svg)](https://coveralls.io/github/rostenkowski/doctrine)
 [![Code Climate](https://codeclimate.com/github/rostenkowski/doctrine/badges/gpa.svg)](https://codeclimate.com/github/rostenkowski/doctrine)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/rostenkowski/doctrine/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/rostenkowski/doctrine/?branch=master)
-![PHP version from PHP-Eye](https://img.shields.io/php-eye/rostenkowski/doctrine.svg)
 
 
 
