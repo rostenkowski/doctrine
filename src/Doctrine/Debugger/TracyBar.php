@@ -79,7 +79,7 @@ class TracyBar implements SQLLogger, IBarPanel
 	}
 
 
-	public function getPanel()
+	public function getPanel(): string
 	{
 		$totalQueries = count($this->queries);
 		$color = $totalQueries ? 'green' : '#555555';
@@ -105,7 +105,7 @@ class TracyBar implements SQLLogger, IBarPanel
 	}
 
 
-	public function getTab()
+	public function getTab(): string
 	{
 		$count = count($this->queries);
 		$color = $count ? 'green' : '#555555';
