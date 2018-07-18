@@ -1,5 +1,5 @@
-.idea/
-tests/temp/
-tests/**/output/
-vendor/
+.idea
+tests/temp
+tests/**/output
+vendor
 composer.lock
